@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="template/template.xhtml">
+            <ui:define name="listaPedidos">
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle navbar-brand" data-toggle="dropdown">Carrinho de Pedidos</a>
+                    <ul class="nav dropdown-menu" style="width:250px;">
+                        <ui:repeat var="p" value="#{controllerPedido.todosOsProdutos}">
+                            <div class="form-group">
+                                <li>
+                                    <h:form>
+                                        <h:commandButton class="btn btn-danger col-md-4" value="Remover" action="#{controllerPedido.removerProduto(p)}"/>
+                                    </h:form>
+                                    <h:outputText value="#{p.descricao} - R$ #{p.preco}"/>
+                                </li>
+                            </div>
+                        </ui:repeat>
+                        <li><a href="pedidos.xhtml">Meus pedidos</a></li>
+                        <li>
+                            <h:form>
+                                <h:commandButton class="btn btn-success col-md-7" value="Fechar Pedido" action="#{controllerPedido.fecharPedido()}"/>
+                                <h:commandButton class="btn btn-default col-md-5" value="Cancelar" action="#{controllerPedido.cancelarPedido()}"/>
+                            </h:form>
+                        </li>
+                    </ul>
+                </li>
+            </ui:define>
+            <ui:define name="corpo">
+                <div class="form-group col-md-12">
+                    <h:form rendered="#{controllerPedido.produtoSorteado.descricao != null}">
+                        <h2 align="center">Produto em destaque</h2>
+                        <div class="figure form-group col-md-4">
+                            <h:outputText value="#{controllerPedido.produtoSorteado.descricao}" style="font-size:2em;"/><br/>
+                            <h:outputText value="R$ #{controllerPedido.produtoSorteado.preco}" style="font-size:1.5em;"/><br/>
+                            <h:commandButton class="btn btn-primary col-md-3" value="Comprar" action="#{controllerPedido.addProduto(controllerPedido.produtoSorteado)}"/>
+                        </div>
+                    </h:form>
+                </div>
+                <div class="form-group">
+                    <h2 align="center">Produtos</h2>
+                    <ui:repeat var="p" value="#{controllerProduto.todosOsProdutos}">
+                        <div class="figure form-group col-md-4">
+                            <h:outputText value="#{p.descricao}" style="font-size:2em;"/><br/>
+                            <h:outputText value="R$ #{p.preco}" style="font-size:1.5em;"/><br/>
+                            <h:form>
+                                <h:commandButton class="btn btn-primary col-md-3" value="Comprar" action="#{controllerPedido.addProduto(p)}"/>
+                            </h:form>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
